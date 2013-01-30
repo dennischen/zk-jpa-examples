@@ -10,14 +10,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  * Entity
  */
 @Entity
-@Table(name = "a_category")
-public class Category implements Serializable {
+@Table(name = "a_department")
+public class Department implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,14 +28,15 @@ public class Category implements Serializable {
 	@Column(nullable = false, length = 128)
 	String name;
 
-	@ManyToMany
-	private Set<Item> items;
+	//mark this Set is mapped by Student.department, so Student is the main-role to maintain the relation ship
+	@OneToMany(mappedBy="department")
+	private Set<Student> students;
 
-	public Category() {
-		items = new LinkedHashSet<Item>();
+	public Department() {
+		students = new LinkedHashSet<Student>();
 	}
 
-	public Category(String name) {
+	public Department(String name) {
 		this();
 		this.name = name;
 	}
@@ -43,12 +45,12 @@ public class Category implements Serializable {
 		return id;
 	}
 
-	public Set<Item> getItems() {
-		return items;
+	public Set<Student> getStudents() {
+		return students;
 	}
 
-	public void setItems(Set<Item> items) {
-		this.items = items;
+	public void setStudents(Set<Student> students) {
+		this.students = students;
 	}
 
 	public String getName() {
@@ -75,7 +77,7 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Department other = (Department) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

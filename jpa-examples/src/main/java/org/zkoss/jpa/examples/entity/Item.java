@@ -35,9 +35,9 @@ public class Item implements Serializable {
 		categories = new LinkedHashSet<Category>();
 	}
 
-	public Item(String subject) {
+	public Item(String name) {
 		this();
-		this.name = subject;
+		this.name = name;
 	}
 
 	public Set<Category> getCategories() {
@@ -59,15 +59,7 @@ public class Item implements Serializable {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-
-	public String getSubject() {
-		return name;
-	}
-
-	public void setSubject(String subject) {
-		this.name = subject;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

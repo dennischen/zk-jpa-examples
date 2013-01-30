@@ -1,0 +1,45 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" title="Direct"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.Item2CatViewModel')"
+		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+		<hbox>
+			<vbox width="200px">
+				<listbox model="@bind(vm.availableItems)"
+					selectedItem="@bind(vm.selectedItem)">
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.name)" />
+						</listitem>
+					</template>
+				</listbox>
+			</vbox>		
+		
+			<vbox visible="@bind(not empty vm.selectedItem)">
+				<textbox value="@bind(vm.selectedItem.name)" />
+				<listbox model="@bind(vm.availableCategories)"
+					selectedItems="@bind(vm.selectedItem.categories)" multiple="true"
+					checkmark="true">
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.name)" />
+						</listitem>
+					</template>
+				</listbox>
+				<hlayout>
+					<button label="update" onClick="@command('update')" />
+					<button label="reload" onClick="@command('reload')" />
+				</hlayout>
+			</vbox>
+			<vbox visible="@bind(not empty vm.selectedItem)" width="300px">
+				<label value="@bind(vm.selectedItem.name)" />
+				<listbox model="@bind(vm.selectedItem.categories)">
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.name)" />
+						</listitem>
+					</template>
+				</listbox>
+			</vbox>
+		</hbox>
+	</window>
+</zk>

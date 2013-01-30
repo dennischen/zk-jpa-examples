@@ -10,14 +10,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  * Entity
  */
 @Entity
-@Table(name = "a_category")
-public class Category implements Serializable {
+@Table(name = "a_student")
+public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,28 +28,26 @@ public class Category implements Serializable {
 	@Column(nullable = false, length = 128)
 	String name;
 
-	@ManyToMany
-	private Set<Item> items;
+	@ManyToOne
+	private Department department;
 
-	public Category() {
-		items = new LinkedHashSet<Item>();
+	public Student() {
 	}
 
-	public Category(String name) {
-		this();
+	public Student(String name) {
 		this.name = name;
+	}
+	
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 
 	public Integer getId() {
 		return id;
-	}
-
-	public Set<Item> getItems() {
-		return items;
-	}
-
-	public void setItems(Set<Item> items) {
-		this.items = items;
 	}
 
 	public String getName() {
@@ -75,7 +74,7 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Student other = (Student) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

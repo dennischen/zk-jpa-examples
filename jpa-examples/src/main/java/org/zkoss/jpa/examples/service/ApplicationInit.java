@@ -19,7 +19,9 @@ import org.springframework.web.context.ServletContextAware;
 import org.zkoss.jpa.examples.entity.AEnum;
 import org.zkoss.jpa.examples.entity.Category;
 import org.zkoss.jpa.examples.entity.DataType;
+import org.zkoss.jpa.examples.entity.Department;
 import org.zkoss.jpa.examples.entity.Item;
+import org.zkoss.jpa.examples.entity.Student;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -73,6 +75,18 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 		commonDao.persist(dt);
 		
 		
+		//one to many demo
+		if (commonDao.list(Student.class).size() == 0) {
+			for (int i = 0; i < 10; i++) {
+				commonDao.persist(new Student("Student " + i));
+			}
+		}
+		if (commonDao.list(Department.class).size() == 0) {
+			for (int i = 0; i < 5; i++) {
+				commonDao.persist(new Department("Department " + i));
+			}
+		}
+		
 		//many to many demo
 		if (commonDao.list(Item.class).size() == 0) {
 			for (int i = 0; i < 10; i++) {
@@ -80,7 +94,9 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 			}
 		}
 		if (commonDao.list(Category.class).size() == 0) {
-			commonDao.persist(new Category("Category 0"));
+			for (int i = 0; i < 5; i++) {
+				commonDao.persist(new Category("Category " + i));
+			}
 		}
 		
 		
