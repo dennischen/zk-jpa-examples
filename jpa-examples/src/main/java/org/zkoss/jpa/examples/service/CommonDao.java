@@ -15,7 +15,7 @@ import org.zkoss.jpa.examples.entity.Item;
 
 @Repository
 @Scope(proxyMode=ScopedProxyMode.TARGET_CLASS)
-public class CategoryService extends DaoBase{
+public class CommonDao extends DaoBase{
 
 	
 	@Transactional(readOnly=true)

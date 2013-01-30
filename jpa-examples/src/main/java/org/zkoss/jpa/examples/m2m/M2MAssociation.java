@@ -42,18 +42,21 @@ public class M2MAssociation implements Serializable{
 	}
 
 	
-	@Init // @Init annotates a initial method
+	@Init
 	public void init(){
-		categoryService.init();
-		//get data from service and wrap it to model for the view
-		availableItems = categoryService.getItemList();
-		//you can use List directly, however use ListModelList provide efficient control in MVVM 
+		availableItems = categoryService.getItemList(); 
 		category = categoryService.getCategoryList().get(0);
 	}
 
-	@Command //@Command annotates a command method 
-	@NotifyChange({"category"}) //@NotifyChange annotates data changed notification after calling this method 
+	@Command 
+	@NotifyChange({"category"}) 
 	public void update(){
 		categoryService.update(category);
+	}
+	
+	@Command 
+	@NotifyChange({"category"}) 
+	public void reload(){
+		category = categoryService.getCategoryList().get(0);
 	}
 }

@@ -1,13 +1,13 @@
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
 <zk>
-	<window apply="org.zkoss.bind.BindComposer" title="Direct"
+	<window apply="org.zkoss.bind.BindComposer" title="Form-base"
 		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.M2MAssociation')"
 		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
 		<hbox>
-			<vbox>
-				<textbox value="@bind(vm.category.name)" />
+			<vbox form="@id('fx') @load(vm.category) @save(vm.category,before='update'))">
+				<textbox value="@bind(fx.name)" />
 				<listbox model="@bind(vm.availableItems)"
-					selectedItems="@bind(vm.category.items)" multiple="true"
+					selectedItems="@bind(fx.items)" multiple="true"
 					checkmark="true">
 					<template name="model">
 						<listitem>
