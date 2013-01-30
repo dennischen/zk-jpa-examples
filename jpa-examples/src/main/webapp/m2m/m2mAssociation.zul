@@ -1,0 +1,32 @@
+<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<window apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.M2MAssociation')"
+	border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+	<hbox>
+
+
+		<vbox>
+			<textbox value="@bind(vm.category.name)" />
+			<listbox model="@bind(vm.availableItems)"
+				selectedItems="@bind(vm.category.items)" multiple="true"
+				checkmark="true">
+				<template name="model">
+					<listitem>
+						<listcell label="@load(each.name)" />
+					</listitem>
+				</template>
+			</listbox>
+			<button label="update" onClick="@command('update')" />
+		</vbox>
+		<vbox>
+			<label value="@bind(vm.category.name)" />
+			<listbox model="@bind(vm.category.items)">
+				<template name="model">
+					<listitem>
+						<listcell label="@load(each.name)" />
+					</listitem>
+				</template>
+			</listbox>
+		</vbox>
+	</hbox>
+</window>

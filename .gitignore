@@ -1,0 +1,5 @@
+.settings/
+assembly/
+target/
+
+jpa-examples/data/
