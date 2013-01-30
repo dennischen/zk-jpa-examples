@@ -1,0 +1,148 @@
+<?taglib uri="/WEB-INF/tld/util.tld" prefix="fn"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" title="Direct"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.datatype.SimpleDataTypeViewModel')"
+		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+		<hbox>
+			<vbox>
+				<listbox model="@bind(vm.availableDataTypes)"
+					width="300px" selectedItem="@bind(vm.selectedDataType)">
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.title)" />
+						</listitem>
+					</template>
+				</listbox>
+			</vbox>
+			<window title="editable result" visible="@bind(not empty vm.selectedDataType)" border="normal" width="300px"> 
+				<vbox hflex="1">
+					<label value="@bind(vm.selectedDataType.title)" />
+					<grid>
+						<columns>
+							<column hflex="min" />
+							<column />
+						</columns>
+						<rows>
+							<row>String
+								<textbox hflex="1"
+									value="@bind(vm.selectedDataType.typeString)" />
+							</row>
+							<row>Boolean
+								<checkbox
+									checked="@bind(vm.selectedDataType.typeBoolean)" />
+							</row>
+							<row>Integer
+								<intbox  hflex="1"
+									value="@bind(vm.selectedDataType.typeInteger)" />
+							</row>
+							<row>Long
+								<longbox  hflex="1"
+									value="@bind(vm.selectedDataType.typeLong)" />
+							</row>
+							<row>Double
+								<doublebox  hflex="1"
+									value="@bind(vm.selectedDataType.typeDouble)" />
+							</row>
+							<row>Float
+								<doublebox  hflex="1"
+									value="@bind(vm.selectedDataType.typeFloat)" />
+							</row>
+							<row>BigDecimal
+								<decimalbox  hflex="1"
+									value="@bind(vm.selectedDataType.typeBigDecimal)" />
+							</row>
+							<row>Date
+								<datebox format="yyyyMMdd"  hflex="1"
+									value="@bind(vm.selectedDataType.typeDate)" />
+							</row>
+							<row>Time
+								<timebox format="HH:mm"  hflex="1"
+									value="@bind(vm.selectedDataType.typeTime)" />
+							</row>
+							<row>DateTime
+								<datebox format="yyyyMMdd HH:mm" hflex="1"
+									value="@bind(vm.selectedDataType.typeDateTime)" />
+							</row>
+							<row>Emnu
+								<radiogroup
+									model="@init(fn:toClass('org.zkoss.jpa.examples.entity.AEnum'))"
+									selectedItem="@bind(vm.selectedDataType.typeEnum)">
+									<template name="model">
+										<radio
+											label="@bind(each.label)" />
+									</template>
+								</radiogroup>
+							</row>
+						</rows>
+					</grid>
+
+					<hlayout>
+						<button label="update"
+							onClick="@command('update')" />
+						<button label="reload"
+							onClick="@command('reload')" />
+					</hlayout>
+				</vbox>
+				</window>
+				<window title="readonly result" visible="@bind(not empty vm.selectedDataType)" border="normal" width="200px">
+				<vbox hflex="1">
+					<label value="@bind(vm.selectedDataType.title)" />
+					<grid>
+						<columns>
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<textbox  hflex="1"
+									value="@load(vm.selectedDataType.typeString)" readonly="true" />
+							</row>
+							<row>
+								<checkbox 
+									checked="@load(vm.selectedDataType.typeBoolean)"
+									disabled="true" />
+							</row>
+							<row>
+								<intbox  hflex="1"
+									value="@load(vm.selectedDataType.typeInteger)" readonly="true" />
+							</row>
+							<row>
+								<longbox  hflex="1"
+									value="@load(vm.selectedDataType.typeLong)" readonly="true" />
+							</row>
+							<row>
+								<doublebox  hflex="1"
+									value="@load(vm.selectedDataType.typeDouble)" readonly="true" />
+							</row>
+							<row>
+								<doublebox  hflex="1"
+									value="@load(vm.selectedDataType.typeFloat)" readonly="true" />
+							</row>
+							<row>
+								<decimalbox  hflex="1"
+									value="@load(vm.selectedDataType.typeBigDecimal)"
+									readonly="true" />
+							</row>
+							<row>
+								<datebox format="yyyyMMdd"  hflex="1"
+									value="@load(vm.selectedDataType.typeDate)" readonly="true" />
+							</row>
+							<row>
+								<timebox format="HH:mm"  hflex="1"
+									value="@load(vm.selectedDataType.typeTime)" readonly="true" />
+							</row>
+							<row>
+								<datebox format="yyyyMMdd HH:mm"  hflex="1"
+									value="@load(vm.selectedDataType.typeDateTime)"
+									readonly="true" />
+							</row>
+							<row>
+								<label
+									value="@load(vm.selectedDataType.typeEnum)" />
+							</row>
+						</rows>
+					</grid>
+				</vbox>
+			</window>
+		</hbox>
+	</window>
+</zk>

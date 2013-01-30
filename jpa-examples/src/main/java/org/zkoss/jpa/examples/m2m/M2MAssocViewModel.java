@@ -22,7 +22,7 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
 @VariableResolver(DelegatingVariableResolver.class)
-public class M2MAssociation implements Serializable{
+public class M2MAssocViewModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@WireVariable
@@ -51,7 +51,7 @@ public class M2MAssociation implements Serializable{
 	@Command 
 	@NotifyChange({"category"}) 
 	public void update(){
-		categoryService.update(category);
+		category = categoryService.update(category);
 	}
 	
 	@Command 

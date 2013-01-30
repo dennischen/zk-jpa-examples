@@ -1,7 +1,6 @@
-<?link rel="stylesheet" type="text/css" href="/style.css"?>
 <zk>
 	<window apply="org.zkoss.bind.BindComposer" title="Direct"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.M2MAssociation')"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.M2MAssocViewModel')"
 		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
 		<hbox>
 			<vbox>

@@ -1,5 +1,6 @@
 package org.zkoss.jpa.examples.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -33,5 +34,16 @@ public class DaoBase{
     public <T> T persist(T item){
     	em.persist(item);
         return item;
+    }
+    
+    @Transactional
+    public <T> T refresh(T item){
+    	em.refresh(item);
+        return item;
+    }
+    
+    @Transactional
+    public <T> T reload(Class<T> clz, Serializable key){
+    	return em.find(clz, key);
     }
 }

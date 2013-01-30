@@ -1,0 +1,9 @@
+<taglib>
+    <function>
+        <name>toClass</name>
+        <function-class>org.zkoss.jpa.examples.TldUtil</function-class>
+        <function-signature>
+    Class toClass(java.lang.String)
+        </function-signature>
+    </function>
+</taglib>
