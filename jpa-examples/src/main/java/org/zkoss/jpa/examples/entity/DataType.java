@@ -13,6 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "a_datatype")
@@ -25,34 +29,51 @@ public class DataType implements SimpleId<Integer>  {
 	public Integer getId() {
 		return id;
 	}
-	
-	String title;
 
+	String title;
+	
+	@Size(min=1,max=10)
+	@NotNull
 	String typeString;
 
+	@NotNull
 	Boolean typeBoolean;
 
+	@Max(999)
+	@NotNull
 	Integer typeInteger;
 
+	@Max(999999)
+	@NotNull
 	Long typeLong;
 
+	@DecimalMax("99999.9999")
+	@NotNull
 	Double typeDouble;
 
+	@DecimalMax("999.9999")
+	@NotNull
 	Float typeFloat;
 
+	@DecimalMax("999999999999.999")
+	@NotNull
 	@Column(precision = 15, scale = 3)
 	BigDecimal typeBigDecimal;
 
 	@Temporal(TemporalType.DATE)
+	@NotNull
 	Date typeDate;
 
 	@Temporal(TemporalType.TIME)
+	@NotNull
 	Date typeTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	Date typeDateTime;
 
 	@Enumerated(EnumType.ORDINAL)
+	@NotNull
 	AEnum typeEnum;
 
 	public DataType() {

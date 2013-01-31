@@ -2,76 +2,116 @@
 <zk>
 	<window apply="org.zkoss.bind.BindComposer" title="Direct"
 		viewModel="@id('vm') @init('org.zkoss.jpa.examples.datatype.SimpleDataTypeViewModel')"
-		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
-		<hbox>
+		validationMessages="@id('vmsgs')" border="normal" hflex="1" vflex="1"
+		contentStyle="overflow:auto">
+		<hbox dt="@ref(vm.selectedDataType)">
 			<vbox>
 				<listbox model="@bind(vm.availableDataTypes)"
-					width="300px" selectedItem="@bind(vm.selectedDataType)">
+					width="300px" selectedItem="@bind(dt)">
 					<template name="model">
 						<listitem>
 							<listcell label="@load(each.title)" />
 						</listitem>
 					</template>
 				</listbox>
+				<hbox>
+					<button label="Create" onClick="@command('create')" />
+				</hbox>
 			</vbox>
-			<window title="editable result" visible="@bind(not empty vm.selectedDataType)" border="normal" width="300px"> 
+			<window title="editable result"
+				visible="@bind(not empty dt)" border="normal" width="400px">
 				<vbox hflex="1">
-					<label value="@bind(vm.selectedDataType.title)" />
+					<label value="@bind(dt.title)" />
 					<grid>
 						<columns>
 							<column hflex="min" />
 							<column />
+							<column />
 						</columns>
 						<rows>
-							<row>String
+							<row>
+								String
 								<textbox hflex="1"
-									value="@bind(vm.selectedDataType.typeString)" />
+									value="@bind(dt.typeString) @save(dt.typeString,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Boolean
+							<row>
+								Boolean
 								<checkbox
-									checked="@bind(vm.selectedDataType.typeBoolean)" />
+									checked="@bind(dt.typeBoolean) @save(dt.typeBoolean,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Integer
-								<intbox  hflex="1"
-									value="@bind(vm.selectedDataType.typeInteger)" />
+							<row>
+								Integer
+								<intbox hflex="1"
+									value="@bind(dt.typeInteger) @save(dt.typeInteger,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Long
-								<longbox  hflex="1"
-									value="@bind(vm.selectedDataType.typeLong)" />
+							<row>
+								Long
+								<longbox hflex="1"
+									value="@bind(dt.typeLong) @save(dt.typeLong,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Double
-								<doublebox  hflex="1"
-									value="@bind(vm.selectedDataType.typeDouble)" />
+							<row>
+								Double
+								<doublebox hflex="1"
+									value="@bind(dt.typeDouble) @save(dt.typeDouble,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Float
-								<doublebox  hflex="1"
-									value="@bind(vm.selectedDataType.typeFloat)" />
+							<row>
+								Float
+								<doublebox hflex="1"
+									value="@bind(dt.typeFloat) @save(dt.typeFloat,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>BigDecimal
-								<decimalbox  hflex="1"
-									value="@bind(vm.selectedDataType.typeBigDecimal)" />
+							<row>
+								BigDecimal
+								<decimalbox hflex="1"
+									value="@bind(dt.typeBigDecimal) @save(dt.typeBigDecimal,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Date
-								<datebox format="yyyyMMdd"  hflex="1"
-									value="@bind(vm.selectedDataType.typeDate)" />
+							<row>
+								Date
+								<datebox format="yyyyMMdd" hflex="1"
+									value="@bind(dt.typeDate) @save(dt.typeDate,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Time
-								<timebox format="HH:mm"  hflex="1"
-									value="@bind(vm.selectedDataType.typeTime)" />
+							<row>
+								Time
+								<timebox format="HH:mm" hflex="1"
+									value="@bind(dt.typeTime) @save(dt.typeTime,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>DateTime
-								<datebox format="yyyyMMdd HH:mm" hflex="1"
-									value="@bind(vm.selectedDataType.typeDateTime)" />
+							<row>
+								DateTime
+								<datebox format="yyyyMMdd HH:mm"
+									hflex="1"
+									value="@bind(dt.typeDateTime) @save(dt.typeDateTime,before='update') @validator('beanValidator')" />
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
-							<row>Emnu
-								<radiogroup
+							<row>
+								Enum
+								<radiogroup id="rg"
 									model="@init(fn:toClass('org.zkoss.jpa.examples.entity.AEnum'))"
-									selectedItem="@bind(vm.selectedDataType.typeEnum)">
+									selectedItem="@bind(dt.typeEnum) @save(dt.typeEnum,before='update') @validator('beanValidator')">
 									<template name="model">
 										<radio
 											label="@bind(each.label)" />
 									</template>
 								</radiogroup>
+								<label
+									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
 						</rows>
 					</grid>
@@ -80,64 +120,61 @@
 						<button label="update"
 							onClick="@command('update')" />
 						<button label="reload"
-							onClick="@command('reload')" />
+							disabled="@bind(empty dt.id)" onClick="@command('reload')" />
 					</hlayout>
 				</vbox>
-				</window>
-				<window title="readonly result" visible="@bind(not empty vm.selectedDataType)" border="normal" width="200px">
+			</window>
+			<window title="readonly result"
+				visible="@bind(not empty dt)" border="normal" width="200px">
 				<vbox hflex="1">
-					<label value="@bind(vm.selectedDataType.title)" />
+					<label value="@bind(dt.title)" />
 					<grid>
 						<columns>
 							<column />
 						</columns>
 						<rows>
 							<row>
-								<textbox  hflex="1"
-									value="@load(vm.selectedDataType.typeString)" readonly="true" />
+								<textbox hflex="1"
+									value="@load(dt.typeString)" readonly="true" />
 							</row>
 							<row>
-								<checkbox 
-									checked="@load(vm.selectedDataType.typeBoolean)"
-									disabled="true" />
+								<checkbox
+									checked="@load(dt.typeBoolean)" disabled="true" />
 							</row>
 							<row>
-								<intbox  hflex="1"
-									value="@load(vm.selectedDataType.typeInteger)" readonly="true" />
+								<intbox hflex="1"
+									value="@load(dt.typeInteger)" readonly="true" />
 							</row>
 							<row>
-								<longbox  hflex="1"
-									value="@load(vm.selectedDataType.typeLong)" readonly="true" />
+								<longbox hflex="1"
+									value="@load(dt.typeLong)" readonly="true" />
 							</row>
 							<row>
-								<doublebox  hflex="1"
-									value="@load(vm.selectedDataType.typeDouble)" readonly="true" />
+								<doublebox hflex="1"
+									value="@load(dt.typeDouble)" readonly="true" />
 							</row>
 							<row>
-								<doublebox  hflex="1"
-									value="@load(vm.selectedDataType.typeFloat)" readonly="true" />
+								<doublebox hflex="1"
+									value="@load(dt.typeFloat)" readonly="true" />
 							</row>
 							<row>
-								<decimalbox  hflex="1"
-									value="@load(vm.selectedDataType.typeBigDecimal)"
-									readonly="true" />
+								<decimalbox hflex="1"
+									value="@load(dt.typeBigDecimal)" readonly="true" />
 							</row>
 							<row>
-								<datebox format="yyyyMMdd"  hflex="1"
-									value="@load(vm.selectedDataType.typeDate)" readonly="true" />
+								<datebox format="yyyyMMdd" hflex="1"
+									value="@load(dt.typeDate)" readonly="true" />
 							</row>
 							<row>
-								<timebox format="HH:mm"  hflex="1"
-									value="@load(vm.selectedDataType.typeTime)" readonly="true" />
+								<timebox format="HH:mm" hflex="1"
+									value="@load(dt.typeTime)" readonly="true" />
 							</row>
 							<row>
-								<datebox format="yyyyMMdd HH:mm"  hflex="1"
-									value="@load(vm.selectedDataType.typeDateTime)"
-									readonly="true" />
+								<datebox format="yyyyMMdd HH:mm"
+									hflex="1" value="@load(dt.typeDateTime)" readonly="true" />
 							</row>
 							<row>
-								<label
-									value="@load(vm.selectedDataType.typeEnum)" />
+								<label value="@load(dt.typeEnum)" />
 							</row>
 						</rows>
 					</grid>

@@ -57,10 +57,22 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 		// initial demo data when startup
 
 		//data type demo
-		DataType dt = new DataType("ALL NULL");
+		DataType dt = new DataType("Value 1");
+		dt.setTypeString("one");
+		dt.setTypeBoolean(Boolean.FALSE);
+		dt.setTypeInteger(12);
+		dt.setTypeLong(12345L);
+		dt.setTypeFloat(12.34F);
+		dt.setTypeDouble(1234.5678D);
+		dt.setTypeBigDecimal(new BigDecimal("9876543210.123"));
+		dt.setTypeDate(toDate("20130909"));
+		dt.setTypeTime(toTime("12:33"));
+		dt.setTypeDateTime(toDateTime("20150215 17:56"));
+		dt.setTypeEnum(AEnum.HIGH);
+		
 		commonDao.persist(dt);
-		dt = new DataType("Has Value");
-		dt.setTypeString("a string");
+		dt = new DataType("Value2");
+		dt.setTypeString("another");
 		dt.setTypeBoolean(Boolean.TRUE);
 		dt.setTypeInteger(99);
 		dt.setTypeLong(99999L);
