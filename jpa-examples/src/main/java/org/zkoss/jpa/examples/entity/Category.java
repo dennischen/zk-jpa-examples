@@ -1,6 +1,5 @@
 package org.zkoss.jpa.examples.entity;
 
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,18 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-/**
- * Entity
- */
 @Entity
 @Table(name = "a_category")
-public class Category implements Serializable {
+public class Category implements SimpleId<Integer> {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
-
+	public Integer getId() {
+		return id;
+	}
+	
 	@Column(nullable = false, length = 128)
 	String name;
 
@@ -37,10 +36,6 @@ public class Category implements Serializable {
 	public Category(String name) {
 		this();
 		this.name = name;
-	}
-
-	public Integer getId() {
-		return id;
 	}
 
 	public Set<Item> getItems() {

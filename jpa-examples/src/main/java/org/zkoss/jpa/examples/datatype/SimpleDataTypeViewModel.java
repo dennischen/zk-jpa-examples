@@ -59,7 +59,7 @@ public class SimpleDataTypeViewModel implements Serializable{
 	@NotifyChange({"selectedDataType"}) 
 	public void reload(){
 		if(selectedDataType!=null){
-			selectedDataType = commonDao.reload(selectedDataType.getClass(),selectedDataType.getId());
+			selectedDataType = commonDao.reload(selectedDataType);
 		}
 	}
 }

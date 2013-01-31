@@ -1,6 +1,5 @@
 package org.zkoss.jpa.examples.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,57 +14,54 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- * Entity
- */
 @Entity
 @Table(name = "a_datatype")
-public class DataType implements Serializable {
+public class DataType implements SimpleId<Integer>  {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer id;
+	public Integer getId() {
+		return id;
+	}
 	
 	String title;
 
 	String typeString;
-	
+
 	Boolean typeBoolean;
-	
+
 	Integer typeInteger;
 
 	Long typeLong;
-	
+
 	Double typeDouble;
-	
+
 	Float typeFloat;
 
-	@Column(precision = 15,scale = 3)
-	BigDecimal typeBigDecimal;	
+	@Column(precision = 15, scale = 3)
+	BigDecimal typeBigDecimal;
 
 	@Temporal(TemporalType.DATE)
 	Date typeDate;
-	
+
 	@Temporal(TemporalType.TIME)
 	Date typeTime;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	Date typeDateTime;
 
 	@Enumerated(EnumType.ORDINAL)
 	AEnum typeEnum;
 
-	
-	public DataType(){}
-	public DataType(String title){
+	public DataType() {
+	}
+
+	public DataType(String title) {
 		this.title = title;
 	}
-	
-	public Integer getId() {
-		return id;
-	}
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -150,14 +146,14 @@ public class DataType implements Serializable {
 		this.typeDateTime = typeDateTime;
 	}
 
-	
-
 	public AEnum getTypeEnum() {
 		return typeEnum;
 	}
+
 	public void setTypeEnum(AEnum typeEnum) {
 		this.typeEnum = typeEnum;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

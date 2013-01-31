@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.zkoss.jpa.examples.entity.SimpleId;
 
 public class DaoBase{
 
@@ -16,6 +17,7 @@ public class DaoBase{
 	protected EntityManager em;
 	
 	
+	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public <T> List<T> list(Class<T> clz) {
 		CriteriaQuery<T> cri = em.getCriteriaBuilder().createQuery(clz);
@@ -40,6 +42,12 @@ public class DaoBase{
     public <T> T refresh(T item){
     	em.refresh(item);
         return item;
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Transactional
+    public <T extends SimpleId> T reload(T entity){
+    	return (T)em.find(entity.getClass(), entity.getId());
     }
     
     @Transactional

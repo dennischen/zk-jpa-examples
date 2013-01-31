@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk>
+	<library-property>
+		<name>org.zkoss.bind.DebuggerFactory.enable</name>
+		<value>true</value>
+	</library-property>
+	<library-property>
+		<name>org.zkoss.bind.DefaultDefaultDebuggerFactory.collector-type</name>
+		<value>client-informer</value>
+	</library-property>
 </zk>
