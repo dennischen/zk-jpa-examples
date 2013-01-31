@@ -1,0 +1,45 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" title="Direct"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.o2m.Dep2StudentViewModel')"
+		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+		<hbox>
+			<vbox width="200px">
+				<listbox model="@bind(vm.availableDepartments)"
+					selectedItem="@bind(vm.selectedDepartment)">
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.name)" />
+						</listitem>
+					</template>
+				</listbox>
+			</vbox>		
+		
+			<vbox visible="@bind(not empty vm.selectedDepartment)">
+				<textbox value="@bind(vm.selectedDepartment.name)" />
+				<listbox model="@bind(vm.availableStudents)"
+					selectedItems="@bind(vm.selectedDepartment.students)"
+					checkmark="true">
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.name)" />
+						</listitem>
+					</template>
+				</listbox>
+				<hlayout>
+					<button label="update" onClick="@command('update')" />
+					<button label="reload" onClick="@command('reload')" />
+				</hlayout>
+			</vbox>
+			<vbox visible="@bind(not empty vm.selectedDepartment)">
+				<label value="@bind(vm.selectedDepartment.name)" />
+				<listbox model="@bind(vm.selectedDepartment.students)">
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.name)" />
+						</listitem>
+					</template>
+				</listbox>
+			</vbox>
+		</hbox>
+	</window>
+</zk>
