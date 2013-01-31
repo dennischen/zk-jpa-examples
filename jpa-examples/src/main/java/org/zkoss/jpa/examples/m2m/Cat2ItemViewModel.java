@@ -22,6 +22,8 @@ import org.zkoss.jpa.examples.service.CommonDao;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.ListModel;
+import org.zkoss.zul.ListModelList;
 
 @VariableResolver(DelegatingVariableResolver.class)
 public class Cat2ItemViewModel implements Serializable{
@@ -31,16 +33,16 @@ public class Cat2ItemViewModel implements Serializable{
 	CommonDao commonDao;
 	
 	Category selectedCategory;
-	List<Item> availableItems;
-	List<Category> availableCategories;
+	ListModelList<Item> availableItems;
+	ListModelList<Category> availableCategories;
 
 	Set<Item> selectedCategoryItems;
 	//getter & setter for the binding of the view
-	public List<Item> getAvailableItems() {
+	public ListModel<Item> getAvailableItems() {
 		return availableItems;
 	}
 	
-	public List<Category> getAvailableCategories() {
+	public ListModel<Category> getAvailableCategories() {
 		return availableCategories;
 	}
 	
@@ -68,8 +70,10 @@ public class Cat2ItemViewModel implements Serializable{
 
 	@Init
 	public void init(){
-		availableItems = commonDao.list(Item.class);
-		availableCategories = commonDao.list(Category.class);
+		availableCategories = new ListModelList(commonDao.list(Category.class));
+		
+		availableItems = new ListModelList(commonDao.list(Item.class));
+		availableItems.setMultiple(true);
 	}
 
 	@Command 
@@ -130,16 +134,10 @@ public class Cat2ItemViewModel implements Serializable{
 	@Command 
 	@NotifyChange({"selectedCategory"}) 
 	public void reload(){
-//		int index = availableItems.indexOf(selectedItem);
+		int index = availableCategories.indexOf(selectedCategory);
 		selectedCategory = commonDao.reload(selectedCategory);
 
-		//TODO a MVVM bug for notify the item inside left available item list
-		
-		//if you are not using form binding, you have to also update the one inside model
-//		availableItems.set(index, selectedItem);
-//		BindUtils.postNotifyChange(null, null, selectedItem, "*");
-		
-//		//if you are using ListModel for availableItems, you could ignore the notifyChange of availableItems
-//		BindUtils.postNotifyChange(null, null, this, "availableItems");
+		// resets the model object too
+		availableCategories.set(index, selectedCategory);
 	}
 }

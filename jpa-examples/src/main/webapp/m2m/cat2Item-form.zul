@@ -17,7 +17,7 @@
 			<vbox visible="@bind(not empty vm.selectedCategory)" form="@id('fx') @load(vm.selectedCategory) @save(vm.selectedCategory,before='update')">
 				<textbox value="@bind(fx.name)" />
 				<listbox model="@bind(vm.availableItems)"
-					selectedItems="@bind(fx.items)" multiple="true"
+					selectedItems="@bind(fx.items)"
 					checkmark="true">
 					<template name="model">
 						<listitem>
