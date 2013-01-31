@@ -1,5 +1,10 @@
 <?taglib uri="/WEB-INF/tld/util.tld" prefix="fn"?>
 <zk>
+	<!-- 
+	Hint,
+	* use @validator('formBeanValidator') to validate the form when performing the action and according to the java bean validation
+	* use vmsgs['key'] to show the validation message for a specific key
+	 -->
 	<window apply="org.zkoss.bind.BindComposer" title="Direct"
 		viewModel="@id('vm') @init('org.zkoss.jpa.examples.datatype.SimpleDataTypeViewModel')"
 		validationMessages="@id('vmsgs')" border="normal" hflex="1" vflex="1"
@@ -33,63 +38,63 @@
 							<row>
 								String
 								<textbox hflex="1"
-									value="@bind(fx.typeString) @save(fx.typeString,before='update')" />
+									value="@bind(fx.typeString)" />
 								<label
 									value="@bind(vmsgs['fx_typeString'])" style="color:red" />
 							</row>
 							<row>
 								Boolean
 								<checkbox
-									checked="@bind(fx.typeBoolean) @save(fx.typeBoolean,before='update')" />
+									checked="@bind(fx.typeBoolean)" />
 								<label
 									value="@bind(vmsgs['fx_typeBoolean'])" style="color:red" />
 							</row>
 							<row>
 								Integer
 								<intbox hflex="1"
-									value="@bind(fx.typeInteger) @save(fx.typeInteger,before='update')" />
+									value="@bind(fx.typeInteger)" />
 								<label
 									value="@bind(vmsgs['fx_typeInteger'])" style="color:red" />
 							</row>
 							<row>
 								Long
 								<longbox hflex="1"
-									value="@bind(fx.typeLong) @save(fx.typeLong,before='update')" />
+									value="@bind(fx.typeLong)" />
 								<label
 									value="@bind(vmsgs['fx_typeLong'])" style="color:red" />
 							</row>
 							<row>
 								Double
 								<doublebox hflex="1"
-									value="@bind(fx.typeDouble) @save(fx.typeDouble,before='update')" />
+									value="@bind(fx.typeDouble)" />
 								<label
 									value="@bind(vmsgs['fx_typeDouble'])" style="color:red" />
 							</row>
 							<row>
 								Float
 								<doublebox hflex="1"
-									value="@bind(fx.typeFloat) @save(fx.typeFloat,before='update')" />
+									value="@bind(fx.typeFloat)" />
 								<label
 									value="@bind(vmsgs['fx_typeFloat'])" style="color:red" />
 							</row>
 							<row>
 								BigDecimal
 								<decimalbox hflex="1"
-									value="@bind(fx.typeBigDecimal) @save(fx.typeBigDecimal,before='update')" />
+									value="@bind(fx.typeBigDecimal)" />
 								<label
 									value="@bind(vmsgs['fx_typeBigDecimal'])" style="color:red" />
 							</row>
 							<row>
 								Date
 								<datebox format="yyyyMMdd" hflex="1"
-									value="@bind(fx.typeDate) @save(fx.typeDate,before='update')" />
+									value="@bind(fx.typeDate)" />
 								<label
 									value="@bind(vmsgs['fx_typeDate'])" style="color:red" />
 							</row>
 							<row>
 								Time
 								<timebox format="HH:mm" hflex="1"
-									value="@bind(fx.typeTime) @save(fx.typeTime,before='update')" />
+									value="@bind(fx.typeTime)" />
 								<label
 									value="@bind(vmsgs['fx_typeTime'])" style="color:red" />
 							</row>
@@ -97,7 +102,7 @@
 								DateTime
 								<datebox format="yyyyMMdd HH:mm"
 									hflex="1"
-									value="@bind(fx.typeDateTime) @save(fx.typeDateTime,before='update')" />
+									value="@bind(fx.typeDateTime)" />
 								<label
 									value="@bind(vmsgs['fx_typeDateTime'])" style="color:red" />
 							</row>
@@ -105,7 +110,7 @@
 								Enum
 								<radiogroup id="rg"
 									model="@init(fn:toClass('org.zkoss.jpa.examples.entity.AEnum'))"
-									selectedItem="@bind(fx.typeEnum) @save(fx.typeEnum,before='update')">
+									selectedItem="@bind(fx.typeEnum)">
 									<template name="model">
 										<radio
 											label="@bind(each.label)" />

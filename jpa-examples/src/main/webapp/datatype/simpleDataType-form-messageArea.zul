@@ -2,9 +2,9 @@
 <zk>
 	<!-- 
 	Hint,
-	* use @validator('beanValidator') to validate the bean field when input changed and according to the java bean validation
-	* use extra @save(expression,before='update') to trigger the validation again before doing the command
-	* use vmsgs[self.previousSibling] to show the validation message for specific target
+	* use @validator('formBeanValidator') to validate the form when performing the action and according to the java bean validation
+	* use <div children="@load(vmsgs.getMessages())"> to show the validation messages in a special area, it is useful to put message together
+	 and only when the message is clear when showing alone.
 	 -->
 	<window apply="org.zkoss.bind.BindComposer" title="Direct"
 		viewModel="@id('vm') @init('org.zkoss.jpa.examples.datatype.SimpleDataTypeViewModel')"
@@ -28,105 +28,87 @@
 				visible="@bind(not empty dt)" border="normal" width="400px">
 				<vbox hflex="1">
 					<label value="@bind(dt.title)" />
-					<grid>
+					<grid
+						form="@id('fx') @load(dt) @save(dt,before='update') @validator('formBeanValidator',prefix='fx_')">
 						<columns>
 							<column hflex="min" />
-							<column />
 							<column />
 						</columns>
 						<rows>
 							<row>
 								String
 								<textbox hflex="1"
-									value="@bind(dt.typeString) @save(dt.typeString,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeString)" />
 							</row>
 							<row>
 								Boolean
 								<checkbox
-									checked="@bind(dt.typeBoolean) @save(dt.typeBoolean,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									checked="@bind(fx.typeBoolean)" />
 							</row>
 							<row>
 								Integer
 								<intbox hflex="1"
-									value="@bind(dt.typeInteger) @save(dt.typeInteger,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeInteger)" />
 							</row>
 							<row>
 								Long
 								<longbox hflex="1"
-									value="@bind(dt.typeLong) @save(dt.typeLong,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeLong)" />
 							</row>
 							<row>
 								Double
 								<doublebox hflex="1"
-									value="@bind(dt.typeDouble) @save(dt.typeDouble,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeDouble)" />
 							</row>
 							<row>
 								Float
 								<doublebox hflex="1"
-									value="@bind(dt.typeFloat) @save(dt.typeFloat,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeFloat)" />
 							</row>
 							<row>
 								BigDecimal
 								<decimalbox hflex="1"
-									value="@bind(dt.typeBigDecimal) @save(dt.typeBigDecimal,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeBigDecimal)" />
 							</row>
 							<row>
 								Date
 								<datebox format="yyyyMMdd" hflex="1"
-									value="@bind(dt.typeDate) @save(dt.typeDate,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeDate)" />
 							</row>
 							<row>
 								Time
 								<timebox format="HH:mm" hflex="1"
-									value="@bind(dt.typeTime) @save(dt.typeTime,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeTime)" />
 							</row>
 							<row>
 								DateTime
 								<datebox format="yyyyMMdd HH:mm"
 									hflex="1"
-									value="@bind(dt.typeDateTime) @save(dt.typeDateTime,before='update') @validator('beanValidator')" />
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
+									value="@bind(fx.typeDateTime)" />
 							</row>
 							<row>
 								Enum
 								<radiogroup id="rg"
 									model="@init(fn:toClass('org.zkoss.jpa.examples.entity.AEnum'))"
-									selectedItem="@bind(dt.typeEnum) @save(dt.typeEnum,before='update') @validator('beanValidator')">
+									selectedItem="@bind(fx.typeEnum)">
 									<template name="model">
 										<radio
 											label="@bind(each.label)" />
 									</template>
 								</radiogroup>
-								<label
-									value="@bind(vmsgs[self.previousSibling])" style="color:red" />
 							</row>
 						</rows>
 					</grid>
-
+					<div children="@load(vmsgs.getMessages())">
+						<template name="children">
+							* <label style="color:red" value="@init(each)"/>
+						</template>
+					</div>
 					<hlayout>
 						<button label="update"
 							onClick="@command('update')" />
 						<button label="reload"
-							disabled="@bind(empty dt.id)" onClick="@command('reload')" />
+							disabled="@bind(empty fx.id)" onClick="@command('reload')" />
 					</hlayout>
 				</vbox>
 			</window>
