@@ -22,6 +22,7 @@ import org.zkoss.jpa.examples.entity.DataType;
 import org.zkoss.jpa.examples.entity.Department;
 import org.zkoss.jpa.examples.entity.Item;
 import org.zkoss.jpa.examples.entity.Student;
+import org.zkoss.jpa.examples.entity.Unit;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -56,7 +57,66 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 			return;
 		// initial demo data when startup
 
-		//data type demo
+		initDataType();
+
+		initOne2Many();
+
+		initMany2Many();
+
+		initTree();
+
+		_initialzed = true;
+	}
+
+	private void initTree() {
+		Unit root = new Unit();
+		root.setName("Root");
+		commonDao.persist(root);
+		for(int i=0;i<3;i++){
+			initTree(root,"U_"+i,6);
+		}
+		
+		
+	}
+	
+	private void initTree(Unit parent,String name,int depthRemains) {
+		Unit unit = new Unit();
+		unit.setName(name);
+		unit.setParent(parent);
+		commonDao.persist(unit);
+		depthRemains--;
+		if(depthRemains>0){
+			for(int i=0;i<3;i++){
+				initTree(unit,name+"_"+i,depthRemains-1);
+			}
+		}
+		
+	}
+
+	private void initMany2Many() {
+		// many to many demo
+		for (int i = 0; i < 10; i++) {
+			commonDao.persist(new Item("Item " + i));
+		}
+
+		for (int i = 0; i < 5; i++) {
+			commonDao.persist(new Category("Category " + i));
+		}
+	}
+
+	private void initOne2Many() {
+		// one to many demo
+		for (int i = 0; i < 10; i++) {
+			commonDao.persist(new Student("Student " + i));
+		}
+
+		for (int i = 0; i < 5; i++) {
+			commonDao.persist(new Department("Department " + i));
+		}
+	}
+
+	private void initDataType() {
+		// data type demo
 		DataType dt = new DataType("Value 1");
 		dt.setTypeString("one");
 		dt.setTypeBoolean(Boolean.FALSE);
@@ -69,7 +129,7 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 		dt.setTypeTime(toTime("12:33"));
 		dt.setTypeDateTime(toDateTime("20150215 17:56"));
 		dt.setTypeEnum(AEnum.HIGH);
-		
+
 		commonDao.persist(dt);
 		dt = new DataType("Value2");
 		dt.setTypeString("another");
@@ -85,42 +145,13 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 		dt.setTypeEnum(AEnum.LOW);
 
 		commonDao.persist(dt);
-		
-		
-		//one to many demo
-		if (commonDao.list(Student.class).size() == 0) {
-			for (int i = 0; i < 10; i++) {
-				commonDao.persist(new Student("Student " + i));
-			}
-		}
-		if (commonDao.list(Department.class).size() == 0) {
-			for (int i = 0; i < 5; i++) {
-				commonDao.persist(new Department("Department " + i));
-			}
-		}
-		
-		//many to many demo
-		if (commonDao.list(Item.class).size() == 0) {
-			for (int i = 0; i < 10; i++) {
-				commonDao.persist(new Item("Item " + i));
-			}
-		}
-		if (commonDao.list(Category.class).size() == 0) {
-			for (int i = 0; i < 5; i++) {
-				commonDao.persist(new Category("Category " + i));
-			}
-		}
-		
-		
-		
-		_initialzed = true;
 	}
 
 	private Date toDateTime(String string) {
 		try {
 			return new SimpleDateFormat("yyyyMMDD HH:mm").parse(string);
 		} catch (ParseException e) {
-			throw new RuntimeException(e.getMessage(),e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
@@ -128,7 +159,7 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 		try {
 			return new SimpleDateFormat("HH:mm").parse(string);
 		} catch (ParseException e) {
-			throw new RuntimeException(e.getMessage(),e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
@@ -136,7 +167,7 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 		try {
 			return new SimpleDateFormat("yyyyMMDD").parse(string);
 		} catch (ParseException e) {
-			throw new RuntimeException(e.getMessage(),e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 }

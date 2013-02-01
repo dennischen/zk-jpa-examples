@@ -1,0 +1,37 @@
+<zk>
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.UnitTreeViewModel')" hflex="1" vflex="1">
+		<west flex="true" width="300px" >
+			<vbox width="200px">
+				<tree model="@bind(vm.unitTreeModel)" vflex="1"
+					selectedItem="@bind(vm.selectedUnit)">
+					<treecols visible="false">
+						<treecol label="Unit"></treecol>
+					</treecols>
+					<template name="model">
+						<treeitem>
+							<treerow>
+								<treecell
+									label="@load(each.name)">
+								</treecell>
+							</treerow>
+						</treeitem>
+					</template>
+				</tree>
+				<hbox vflex="min">
+				<button label="select random" onClick="@command('selectRandom')"  />
+				<button label="collapse" onClick="@command('collapse')" />
+				</hbox>
+			</vbox>
+		</west>
+		<center>
+			<vbox visible="@bind(not empty vm.selectedUnit)">
+				<textbox value="@bind(vm.selectedUnit.name)" />
+				<hlayout>
+					<button label="update" onClick="@command('update')" />
+					<button label="reload" onClick="@command('reload')" />
+				</hlayout>
+			</vbox>
+		</center>
+	</borderlayout>
+</zk>
