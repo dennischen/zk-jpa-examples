@@ -1,4 +1,4 @@
-package org.zkoss.jpa.examples.tree;
+package org.zkoss.jpa.examples.tree.live;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,39 +9,41 @@ import java.util.Map;
 import org.zkoss.jpa.examples.entity.Unit;
 import org.zkoss.jpa.examples.service.UnitDao;
 import org.zkoss.zul.AbstractTreeModel;
+import org.zkoss.zul.event.TreeDataEvent;
 
-public class UnitTreeModel extends AbstractTreeModel<Unit> {
+public class LiveUnitTreeModel extends AbstractTreeModel<Unit> {
 	private static final long serialVersionUID = 1L;
 	UnitDao unitDao;
 	
-	public UnitTreeModel(Unit root, UnitDao unitDao) {
+	public LiveUnitTreeModel(Unit root, UnitDao unitDao) {
 		super(root);
 		this.unitDao = unitDao;
 	}
 
 	public boolean isLeaf(Unit node) {
-		return unitDao.reload(node).getSubUnit().size()==0;//might be detached, reload it back
+		boolean r = unitDao.reload(node).getSubUnits().size()==0;//might be detached, reload it back
+		return r;
 	}
 
 	public Unit getChild(Unit parent, int index) {
-		List<Unit> subUnits = unitDao.reload(parent).getSubUnit();//might be detached, reload it back
+		List<Unit> subUnits = unitDao.reload(parent).getSubUnits();//might be detached, reload it back
 		subUnits = sort(subUnits);
 		return subUnits.get(index);
 	}
 
 	public int getChildCount(Unit parent) {
-		return unitDao.reload(parent).getSubUnit().size();//might be detached, reload it back
+		return unitDao.reload(parent).getSubUnits().size();//might be detached, reload it back
 	}
 	
 	private List<Unit> sort(List<Unit> units){
-		//Hint, you can sort again here for UI effect
-		//Don't sort on units directly, it might cause JPA persist the order
+		//Hint, you can sort again here for UI sort effect
+		//Don't sort on collection of sub-units directly, it might cause JPA persist the order
 		return units;
 	}
 
 	@Override
 	public int getIndexOfChild(Unit parent, Unit child) {
-		List<Unit> subUnits =  unitDao.reload(parent).getSubUnit();//might be detached, reload it back
+		List<Unit> subUnits =  unitDao.reload(parent).getSubUnits();//might be detached, reload it back
 		subUnits = sort(subUnits);
 		return subUnits.indexOf(child);
 	}
@@ -57,12 +59,12 @@ public class UnitTreeModel extends AbstractTreeModel<Unit> {
 		unit = unitDao.reload(getRoot());//might be detached, reload it back
 		List<Unit> subUnits;
 		for(int i=0;i<path.length;i++){
-			subUnits = sort(unit.getSubUnit());
+			subUnits = sort(unit.getSubUnits());
 			unit = subUnits.get(path[i]);
 		}
 		
 		
-		setPathCache(unit, path);
+		putPathCache(unit, path);
 		return unit;
 	}
 
@@ -111,16 +113,32 @@ public class UnitTreeModel extends AbstractTreeModel<Unit> {
 		
 		
 		//put 
-		setPathCache(child,ipath);
+		putPathCache(child,ipath);
 		
 		return ipath;
 	}
 	
-	//a simple read-only implementation, need a good algorithm to handle it.
+	//a simple read-only implementation, 
+	//TODO need a good algorithm to handle it.
 	Map<Unit,int[]> unit2Path = new HashMap<Unit, int[]>();
 	Map<String,Unit> path2Unit = new HashMap<String,Unit>();
 	
-	public void clearPathCache(Unit unit){
+	
+	public void notifyStructureChange(Unit unit){
+		clearCache(unit);
+		
+		unit = unitDao.reload(unit); 
+		int[] path = getPath(unit);
+		fireEvent(TreeDataEvent.STRUCTURE_CHANGED, path, 0, 0);
+	}
+	public void notifyDataChange(Unit unit){
+		unit = unitDao.reload(unit); 
+		int index = getIndexOfChild(unit.getParent(),unit);
+		int[] path = getPath(unit.getParent());
+		fireEvent(TreeDataEvent.CONTENTS_CHANGED, path, index, index);
+	}
+	
+	private void clearCache(Unit unit){
 		int[] path = unit2Path.remove(unit);
 		if(path==null) return;
 		String p = toPathString(path);
@@ -141,7 +159,7 @@ public class UnitTreeModel extends AbstractTreeModel<Unit> {
 		return path2Unit.get(toPathString(path));
 	}
 	
-	private void setPathCache(Unit unit,int[] path){
+	private void putPathCache(Unit unit,int[] path){
 		String p = toPathString(path);
 		unit2Path.put(unit, path);
 		path2Unit.put(p, unit);

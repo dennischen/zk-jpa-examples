@@ -1,29 +1,25 @@
 <zk>
-	<style>
-	.empty .z-treecell-cnt{
-		font-style:italic;
-		color:blue;
-	}
-	</style>
 	<borderlayout apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.UnitTreeViewModel')"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.live.LiveUnitTreeViewModel')"
 		hflex="1" vflex="1">
 		<west flex="true" width="300px">
 			<vbox width="200px">
 				<hbox vflex="min">
+					<button label="select random"
+						onClick="@command('selectRandom')" />
 					<button label="collapse"
 						onClick="@command('collapse')" />
 				</hbox>
 				<tree model="@bind(vm.unitTreeModel)" vflex="1"
-					selectedItem="@bind(vm.selectedUnit)" >
+					selectedItem="@bind(vm.selectedUnit)">
 					<treecols visible="false">
 						<treecol label="Unit"></treecol>
 					</treecols>
 					<template name="model">
-						<treeitem 
+						<treeitem
 							draggable="unit" droppable="unit" onDrop="@command('move',target=event.dragged.value,parent=event.target.value)">
 							<treerow>
-								<treecell label="@load(each.data.name)" sclass="@load(empty each.children?'empty':'')">
+								<treecell label="@load(each.name)">
 								</treecell>
 							</treerow>
 						</treeitem>
@@ -37,16 +33,14 @@
 					<hlayout>
 						Parent :
 						<label
-							value="@bind(vm.selectedUnit.parent.data.name)" />
+							value="@bind(vm.selectedUnit.parent.name)" />
 					</hlayout>
-					<textbox value="@bind(vm.selectedUnit.data.name)" />
+					<textbox value="@bind(vm.selectedUnit.name)" />
 					<hlayout>
 						<button label="update"
 							onClick="@command('update')" />
 						<button label="reload"
 							onClick="@command('reload')" />
-						<button label="show me"
-							onClick="@command('show')" />	
 					</hlayout>
 				</vbox>
 
@@ -54,16 +48,16 @@
 					<hlayout>
 						Parent :
 						<label
-							value="@bind(vm.selectedUnit.parent.data.name)" />
+							value="@bind(vm.selectedUnit.parent.name)" />
 					</hlayout>
 					<hlayout>
-					Name :<label value="@bind(vm.selectedUnit.data.name)" />
+					Name :<label value="@bind(vm.selectedUnit.name)" />
 					</hlayout>
 					Children:
-					<listbox model="@bind(vm.selectedUnit.children)">
+					<listbox model="@bind(vm.selectedUnit.subUnits)">
 						<template name="model">
 							<listitem>
-								<listcell label="@load(each.data.name)" />
+								<listcell label="@load(each.name)" />
 							</listitem>
 						</template>
 					</listbox>

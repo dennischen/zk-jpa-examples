@@ -27,8 +27,8 @@ import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.TreeNode;
 
 @VariableResolver(DelegatingVariableResolver.class)
-public class UnitTreeViewModel implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class LODUnitTreeViewModel implements Serializable{
+private static final long serialVersionUID = 1L;
 	
 	@WireVariable
 	UnitDao unitDao;
@@ -39,18 +39,29 @@ public class UnitTreeViewModel implements Serializable{
 
 	@Init
 	public void init(){
-		UnitNode root = loadOnce(unitDao.getRoot());
+		UnitNode root = new UnitNode(unitDao.getRoot());
+		loadFurther(root,2);//in this case, we always load further (+2 layer) for a node
 		unitTreeModel = new DefaultTreeModel<Unit>(root);
 	}
 	
-	private UnitNode loadOnce(Unit unit){
-		UnitNode node = new UnitNode(unit);
-		node.setLoaded(true);
-		for(Unit sub:unit.getSubUnits()){
-			UnitNode n = loadOnce(sub);
-			node.add(n);
+	
+	private void loadFurther(UnitNode node,int more){
+		if(more<0) return;
+
+		if(node.isLoaded()){
+			//check children load state
+			for(TreeNode<Unit> n:node.getChildren()){
+				loadFurther((UnitNode)n,more-1);
+			}
+		}else{
+			node.setLoaded(true);
+			Unit u = unitDao.reload(node.getUnit());//might be detached
+			for(Unit sub:u.getSubUnits()){
+				UnitNode n = new UnitNode(sub);
+				node.add(n);
+				loadFurther(n,more-1);
+			}
 		}
-		return node;
 	}
 
 	public TreeModel<TreeNode<Unit>> getUnitTreeModel() {
@@ -63,6 +74,13 @@ public class UnitTreeViewModel implements Serializable{
 
 	public void setSelectedUnit(UnitNode selectedUnitNode) {
 		this.selectedUnit = selectedUnitNode;
+	}
+	
+	@Command
+	public void load(@BindingParam("node") UnitNode node,@BindingParam("open") boolean open){
+		if(open){
+			loadFurther(node,2);//in this case, we always load further (+2 layer) for a node
+		}
 	}
 	
 	@Command

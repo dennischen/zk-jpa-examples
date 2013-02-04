@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -40,12 +41,13 @@ public class Unit implements SimpleId<Integer> {
 	Unit parent;
 	
 	@OneToMany(mappedBy="parent")
-	List<Unit> subUnit; 
+	@OrderBy("name DESC")
+	List<Unit> subUnits; 
 	
 
 	public Unit() {
 		members = new LinkedHashSet<Member>();
-		subUnit = new LinkedList<Unit>();
+		subUnits = new LinkedList<Unit>();
 	}
 
 	public Unit(String name) {
@@ -63,12 +65,12 @@ public class Unit implements SimpleId<Integer> {
 		this.parent = parent;
 	}
 
-	public List<Unit> getSubUnit() {
-		return subUnit;
+	public List<Unit> getSubUnits() {
+		return subUnits;
 	}
 
-	public void setSubUnit(List<Unit> subUnit) {
-		this.subUnit = subUnit;
+	public void setSubUnits(List<Unit> subUnits) {
+		this.subUnits = subUnits;
 	}
 
 	public Set<Member> getMembers() {

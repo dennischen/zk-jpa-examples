@@ -4,9 +4,12 @@
 		font-style:italic;
 		color:blue;
 	}
+	.empty .z-tree-ico{
+		background-image:none;
+	}
 	</style>
 	<borderlayout apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.UnitTreeViewModel')"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.LODUnitTreeViewModel')"
 		hflex="1" vflex="1">
 		<west flex="true" width="300px">
 			<vbox width="200px">
@@ -21,6 +24,7 @@
 					</treecols>
 					<template name="model">
 						<treeitem 
+							onOpen="@command('load',open=event.open,node=each)"
 							draggable="unit" droppable="unit" onDrop="@command('move',target=event.dragged.value,parent=event.target.value)">
 							<treerow>
 								<treecell label="@load(each.data.name)" sclass="@load(empty each.children?'empty':'')">
@@ -46,7 +50,7 @@
 						<button label="reload"
 							onClick="@command('reload')" />
 						<button label="show me"
-							onClick="@command('show')" />	
+							onClick="@command('show')" />
 					</hlayout>
 				</vbox>
 
