@@ -1,12 +1,11 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer" title="Rod ListModel"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.rod.RodCat2ItemViewModel')"
+	<window apply="org.zkoss.bind.BindComposer" title="Rod ListModel with Paging"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.live.RodCat2ItemViewModel')"
 		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
 		<hbox>
-			<vbox width="200px">
+			<vbox width="400px">
 				<custom-attributes org.zkoss.zul.listbox.rod="true"/>
-				<custom-attributes org.zkoss.zul.listbox.initRodSize="20"/>
-				<listbox model="@bind(vm.availableCategories)" rows="10"
+				<listbox model="@bind(vm.availableCategories)" rows="10" mold="paging" pageSize="10" 
 					selectedItem="@bind(vm.selectedCategory)">
 					<template name="model">
 						<listitem>

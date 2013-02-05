@@ -1,6 +1,6 @@
 <zk>
 	<window apply="org.zkoss.bind.BindComposer" title="Manual Paging"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.rod.ManualPagingCat2ItemViewModel')"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.live.ManualPagingCat2ItemViewModel')"
 		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
 		<hbox>
 			<vbox width="400px">

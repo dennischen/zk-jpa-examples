@@ -1,4 +1,4 @@
-package org.zkoss.jpa.examples.m2m.rod;
+package org.zkoss.jpa.examples.m2m.live;
 
 import java.util.HashMap;
 import java.util.List;

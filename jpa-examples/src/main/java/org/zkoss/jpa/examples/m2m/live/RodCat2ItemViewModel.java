@@ -6,7 +6,7 @@
 
 Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 */
-package org.zkoss.jpa.examples.m2m.rod;
+package org.zkoss.jpa.examples.m2m.live;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;

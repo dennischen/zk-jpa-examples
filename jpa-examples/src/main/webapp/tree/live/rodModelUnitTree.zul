@@ -1,6 +1,6 @@
 <zk>
 	<borderlayout apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.rod.RodModelUnitTreeViewModel')"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.live.RodModelUnitTreeViewModel')"
 		hflex="1" vflex="1">
 		<west flex="true" width="300px">
 			<vbox width="200px">

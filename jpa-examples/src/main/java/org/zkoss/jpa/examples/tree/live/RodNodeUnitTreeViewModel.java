@@ -6,7 +6,7 @@
 
 Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 */
-package org.zkoss.jpa.examples.tree.rod;
+package org.zkoss.jpa.examples.tree.live;
 
 import java.io.Serializable;
 import java.util.LinkedList;
