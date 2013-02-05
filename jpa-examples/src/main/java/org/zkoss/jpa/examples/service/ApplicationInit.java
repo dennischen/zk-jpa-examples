@@ -99,7 +99,7 @@ public class ApplicationInit implements ServletContextAware, ApplicationListener
 			commonDao.persist(new Item("Item " + i));
 		}
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 101; i++) {
 			commonDao.persist(new Category("Category " + i));
 		}
 	}

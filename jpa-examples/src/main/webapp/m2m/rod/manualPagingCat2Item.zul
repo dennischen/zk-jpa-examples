@@ -1,19 +1,23 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer" title="Direct"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.rod.RodCat2ItemViewModel')"
+	<window apply="org.zkoss.bind.BindComposer" title="Manual Paging"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.m2m.rod.ManualPagingCat2ItemViewModel')"
 		border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
 		<hbox>
-			<vbox width="200px">
-				<custom-attributes org.zkoss.zul.listbox.rod="true"/>
-				<custom-attributes org.zkoss.zul.listbox.initRodSize="20"/>
-				<listbox model="@bind(vm.availableCategories)" rows="10"
-					selectedItem="@bind(vm.selectedCategory)">
+			<vbox width="400px">
+				<paging 
+					onPaging="@command('paging')"
+					totalSize="@bind(vm.totalSize)" pageSize="@bind(vm.pageSize)" activePage="@bind(vm.activePage)"/>
+				<listbox model="@bind(vm.availableCategories)"
+					selectedItem="@bind(vm.selectedCategory)" rows="@bind(vm.pageSize)">
 					<template name="model">
 						<listitem>
 							<listcell label="@load(each.name)" />
 						</listitem>
 					</template>
 				</listbox>
+				<paging 
+					onPaging="@command('paging')"
+					totalSize="@bind(vm.totalSize)" pageSize="@bind(vm.pageSize)" activePage="@bind(vm.activePage)"/>				
 			</vbox>		
 		
 			<vbox visible="@bind(not empty vm.selectedCategory)">

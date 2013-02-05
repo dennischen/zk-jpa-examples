@@ -6,7 +6,7 @@
 
 Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 */
-package org.zkoss.jpa.examples.m2m.paging;
+package org.zkoss.jpa.examples.m2m.rod;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
@@ -26,7 +26,7 @@ import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 
 @VariableResolver(DelegatingVariableResolver.class)
-public class LivePagingCat2ItemViewModel implements Serializable{
+public class ManualPagingCat2ItemViewModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@WireVariable
@@ -37,6 +37,12 @@ public class LivePagingCat2ItemViewModel implements Serializable{
 	ListModelList<Category> availableCategories;
 
 	Set<Item> selectedCategoryItems;
+	
+	
+	int pageSize = 10;
+	int activePage = 0;
+	int totalSize;
+	
 	//getter & setter for the binding of the view
 	public ListModel<Item> getAvailableItems() {
 		return availableItems;
@@ -53,7 +59,22 @@ public class LivePagingCat2ItemViewModel implements Serializable{
 	
 	
 
+	public int getActivePage() {
+		return activePage;
+	}
+
+	public void setActivePage(int activePage) {
+		this.activePage = activePage;
+	}
 	
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public int getTotalSize() {
+		return totalSize;
+	}
+
 	public void setSelectedCategory(Category selectedCategory) {
 		if(selectedCategory!=null){
 			//refresh it to avoid org.hibernate.LazyInitializationException
@@ -70,12 +91,24 @@ public class LivePagingCat2ItemViewModel implements Serializable{
 
 	@Init
 	public void init(){
-		availableCategories = new ListModelList(commonDao.list(Category.class));
+		
+		totalSize = commonDao.sizeOf(Category.class);
+		availableCategories = new ListModelList(commonDao.list(Category.class,activePage*pageSize,pageSize));
 		
 		availableItems = new ListModelList(commonDao.list(Item.class));
 		availableItems.setMultiple(true);
 	}
 
+	@Command 
+	@NotifyChange({"totalSize","availableCategories"}) 
+	public void paging(){
+		totalSize = commonDao.sizeOf(Category.class);
+		if(activePage*pageSize>=totalSize){//the data size was change since last paging, reysnc it.
+			activePage = 0;//simply to first page
+		}
+		availableCategories = new ListModelList(commonDao.list(Category.class,activePage*pageSize,pageSize));
+	}
+	
 	@Command 
 	@NotifyChange({"selectedCategory"}) 
 	public void update(){
@@ -138,6 +171,8 @@ public class LivePagingCat2ItemViewModel implements Serializable{
 		selectedCategory = commonDao.reload(selectedCategory);
 
 		// resets the model object too
-		availableCategories.set(index, selectedCategory);
+		if(index>=0){
+			availableCategories.set(index, selectedCategory);
+		}
 	}
 }
