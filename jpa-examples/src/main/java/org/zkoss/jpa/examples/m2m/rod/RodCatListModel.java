@@ -1,4 +1,4 @@
-package org.zkoss.jpa.examples.m2m.live;
+package org.zkoss.jpa.examples.m2m.rod;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,24 +10,25 @@ import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.AbstractListModel;
 
-public class LiveCatListModel extends AbstractListModel<Category> {
+public class RodCatListModel extends AbstractListModel<Category> {
 
 	private static final long serialVersionUID = 1L;
 	CommonDao dao;
 	
 	private int size = -1;
-	private int pageSize = 30;
-	private static final String CACHE_KEY = LiveCatListModel.class + "_cache";
+	private int pageSize = 10;
+	private static final String CACHE_KEY = RodCatListModel.class + "_cache";
 
-	public LiveCatListModel(CommonDao dao) {
+	public RodCatListModel(CommonDao dao) {
 		this.dao = dao;
 	}
 
 	public Category getElementAt(int index) {
 		Map<Integer, Category> cache = getCache();
-
+		
 		Category cat = cache.get(index);
 		if (cat == null) {
+			System.out.println(">>>>"+index);
 			// if cache doesn't contain target object, query a page size of data
 			// starting from the index
 			List<Category> pageResult = dao.list(Category.class, index, pageSize);

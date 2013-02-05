@@ -6,7 +6,7 @@
 
 Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 */
-package org.zkoss.jpa.examples.tree;
+package org.zkoss.jpa.examples.tree.rod;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -19,6 +19,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.jpa.examples.entity.Unit;
 import org.zkoss.jpa.examples.service.UnitDao;
+import org.zkoss.jpa.examples.tree.UnitNode;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
@@ -27,7 +28,7 @@ import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.TreeNode;
 
 @VariableResolver(DelegatingVariableResolver.class)
-public class LODUnitTreeViewModel implements Serializable{
+public class RodNodeUnitTreeViewModel implements Serializable{
 private static final long serialVersionUID = 1L;
 	
 	@WireVariable

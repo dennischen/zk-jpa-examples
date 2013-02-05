@@ -6,7 +6,7 @@
 
 Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 */
-package org.zkoss.jpa.examples.m2m.live;
+package org.zkoss.jpa.examples.m2m.paging;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
@@ -26,7 +26,7 @@ import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 
 @VariableResolver(DelegatingVariableResolver.class)
-public class LiveCat2ItemViewModel implements Serializable{
+public class LivePagingCat2ItemViewModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@WireVariable
@@ -34,7 +34,7 @@ public class LiveCat2ItemViewModel implements Serializable{
 	
 	Category selectedCategory;
 	ListModelList<Item> availableItems;
-	LiveCatListModel availableCategories;
+	ListModelList<Category> availableCategories;
 
 	Set<Item> selectedCategoryItems;
 	//getter & setter for the binding of the view
@@ -50,6 +50,8 @@ public class LiveCat2ItemViewModel implements Serializable{
 	public Category getSelectedCategory(){
 		return selectedCategory;
 	}
+	
+	
 
 	
 	public void setSelectedCategory(Category selectedCategory) {
@@ -68,7 +70,7 @@ public class LiveCat2ItemViewModel implements Serializable{
 
 	@Init
 	public void init(){
-		availableCategories = new LiveCatListModel(commonDao);
+		availableCategories = new ListModelList(commonDao.list(Category.class));
 		
 		availableItems = new ListModelList(commonDao.list(Item.class));
 		availableItems.setMultiple(true);
@@ -132,13 +134,10 @@ public class LiveCat2ItemViewModel implements Serializable{
 	@Command 
 	@NotifyChange({"selectedCategory"}) 
 	public void reload(){
+		int index = availableCategories.indexOf(selectedCategory);
 		selectedCategory = commonDao.reload(selectedCategory);
-		
-		//TODO how to update it in model?
-//		int index = availableCategories.indexOf(selectedCategory);
-//		selectedCategory = commonDao.reload(selectedCategory);
-//
+
 		// resets the model object too
-//		availableCategories.set(index, selectedCategory);
+		availableCategories.set(index, selectedCategory);
 	}
 }

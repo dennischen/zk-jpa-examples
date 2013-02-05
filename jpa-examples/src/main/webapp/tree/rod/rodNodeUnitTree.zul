@@ -9,7 +9,7 @@
 	}
 	</style>
 	<borderlayout apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.LODUnitTreeViewModel')"
+		viewModel="@id('vm') @init('org.zkoss.jpa.examples.tree.rod.RodNodeUnitTreeViewModel')"
 		hflex="1" vflex="1">
 		<west flex="true" width="300px">
 			<vbox width="200px">

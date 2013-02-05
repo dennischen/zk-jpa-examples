@@ -1,4 +1,4 @@
-package org.zkoss.jpa.examples.tree.live;
+package org.zkoss.jpa.examples.tree.rod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +11,11 @@ import org.zkoss.jpa.examples.service.UnitDao;
 import org.zkoss.zul.AbstractTreeModel;
 import org.zkoss.zul.event.TreeDataEvent;
 
-public class LiveUnitTreeModel extends AbstractTreeModel<Unit> {
+public class RodUnitTreeModel extends AbstractTreeModel<Unit> {
 	private static final long serialVersionUID = 1L;
 	UnitDao unitDao;
 	
-	public LiveUnitTreeModel(Unit root, UnitDao unitDao) {
+	public RodUnitTreeModel(Unit root, UnitDao unitDao) {
 		super(root);
 		this.unitDao = unitDao;
 	}

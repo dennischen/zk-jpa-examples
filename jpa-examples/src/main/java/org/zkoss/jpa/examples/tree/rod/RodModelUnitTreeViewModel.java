@@ -6,7 +6,7 @@
 
 Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 */
-package org.zkoss.jpa.examples.tree.live;
+package org.zkoss.jpa.examples.tree.rod;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,23 +24,23 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
 @VariableResolver(DelegatingVariableResolver.class)
-public class LiveUnitTreeViewModel implements Serializable{
+public class RodModelUnitTreeViewModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@WireVariable
 	UnitDao unitDao;
 
-	LiveUnitTreeModel unitTreeModel;
+	RodUnitTreeModel unitTreeModel;
 	
 	Unit selectedUnit;
 
 	@Init
 	public void init(){
 		//here, we use a live tree to prevent load unnecessary tree-node into memory.
-		unitTreeModel = new LiveUnitTreeModel(unitDao.getRoot(),unitDao);
+		unitTreeModel = new RodUnitTreeModel(unitDao.getRoot(),unitDao);
 	}
 
-	public LiveUnitTreeModel getUnitTreeModel() {
+	public RodUnitTreeModel getUnitTreeModel() {
 		return unitTreeModel;
 	}
 
