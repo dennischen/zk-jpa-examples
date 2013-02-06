@@ -28,7 +28,6 @@ public class RodCatListModel extends AbstractListModel<Category> {
 		
 		Category cat = cache.get(index);
 		if (cat == null) {
-			System.out.println(">>>>"+index);
 			// if cache doesn't contain target object, query a page size of data
 			// starting from the index
 			List<Category> pageResult = dao.list(Category.class, index, pageSize);

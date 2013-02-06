@@ -5,7 +5,7 @@
 		<hbox>
 			<vbox width="200px">
 				<listbox model="@bind(vm.availableCategories)"
-					selectedItem="@bind(vm.selectedCategory)">
+					selectedItem="@bind(vm.selectedCategory)" rows="10">
 					<template name="model">
 						<listitem>
 							<listcell label="@load(each.name)" />
